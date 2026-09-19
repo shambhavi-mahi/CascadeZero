@@ -1,0 +1,10 @@
+{
+  "water_01": ["pipeline_01"],
+  "pipeline_01": ["road_01"],
+  "road_01": ["hospital_01", "school_01", "junction_b"],
+  "power_01": ["substation_1", "substation_2", "substation_3"],
+  "substation_1": ["hospital_01", "traffic_signal_1", "traffic_signal_2"],
+  "substation_2": ["hospital_02", "traffic_signal_3"],
+  "substation_3": ["traffic_signal_4"],
+  "road_02": ["hospital_02"]
+}

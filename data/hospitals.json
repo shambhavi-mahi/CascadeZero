@@ -1,0 +1,4 @@
+[
+  { "id": "hospital_01", "name": "City Hospital A", "type": "hospital", "latitude": 16.50, "longitude": 80.64, "priority": "critical" },
+  { "id": "hospital_02", "name": "General Hospital B", "type": "hospital", "latitude": 16.51, "longitude": 80.65, "priority": "critical" }
+]

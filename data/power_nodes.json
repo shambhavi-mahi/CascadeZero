@@ -1,0 +1,4 @@
+[
+  { "id": "power_01", "name": "Main Substation", "type": "power_station", "latitude": 16.49, "longitude": 80.63, "priority": "high" },
+  { "id": "power_02", "name": "East Substation", "type": "power_station", "latitude": 16.52, "longitude": 80.66, "priority": "high" }
+]

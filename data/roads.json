@@ -1,0 +1,5 @@
+[
+  { "id": "road_01", "name": "Road A", "type": "road" },
+  { "id": "road_02", "name": "Road B", "type": "road" },
+  { "id": "road_03", "name": "Road C", "type": "road" }
+]
