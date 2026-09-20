@@ -37,9 +37,6 @@ export default function LandingPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
-            <div className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold tracking-wide border border-blue-200">
-              Hackathon MVP
-            </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
               The city has a <br/><span className="text-blue-600">backup plan.</span>
             </h1>
@@ -165,7 +162,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-slate-900 py-12 border-t border-slate-800 text-center relative z-10">
         <p className="text-slate-500 font-medium flex items-center justify-center gap-2">
-          <Activity size={18} className="text-blue-500" /> CascadeZero MVP
+          <Activity size={18} className="text-blue-500" /> CascadeZero
         </p>
       </footer>
     </main>
