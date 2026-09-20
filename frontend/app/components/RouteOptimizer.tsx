@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Navigation, AlertTriangle, CheckCircle2, Minus } from "lucide-react";
 import type { Route } from "../types";
 
@@ -8,7 +9,7 @@ const routes: Route[] = [
   { id: "c", name: "Route C", distance: "4.8 km", risk: "MEDIUM", score: 55, recommended: false },
 ];
 
-const riskStyle: Record<Route["risk"], { badge: string; bar: string; icon: JSX.Element }> = {
+const riskStyle: Record<Route["risk"], { badge: string; bar: string; icon: React.ReactNode }> = {
   HIGH: { badge: "bg-red-100 text-red-700 border-red-200", bar: "bg-red-500", icon: <AlertTriangle size={12} /> },
   MEDIUM: { badge: "bg-orange-100 text-orange-700 border-orange-200", bar: "bg-orange-500", icon: <Minus size={12} /> },
   LOW: { badge: "bg-emerald-100 text-emerald-700 border-emerald-200", bar: "bg-emerald-500", icon: <CheckCircle2 size={12} /> },

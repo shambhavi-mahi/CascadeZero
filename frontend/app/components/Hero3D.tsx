@@ -274,7 +274,8 @@ export default function Hero3D() {
         <CityScene />
 
         {/* High-End Postprocessing */}
-        <EffectComposer disableNormalPass multisampling={8}>
+        {/* @ts-ignore - The react-three/postprocessing typings are slightly mismatched with the library version */}
+      <EffectComposer disableNormalPass multisampling={8}>
           <Bloom luminanceThreshold={0.8} mipmapBlur intensity={0.6} />
         </EffectComposer>
         
