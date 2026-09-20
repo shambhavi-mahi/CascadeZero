@@ -106,12 +106,12 @@ export default function Map({ phase }: MapProps) {
 
       </MapContainer>
       
-      {/* CSS overrides for Leaflet in dark mode */}
+      {/* CSS: light Google-Maps-like tile style */}
       <style dangerouslySetInnerHTML={{__html: `
-        .leaflet-container { background: #0f172a !important; }
+        .leaflet-container { background: #e8eaed !important; }
         .custom-leaflet-icon { background: none; border: none; }
         .map-tiles {
-          filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(110%) saturate(80%);
+          filter: saturate(0.8) brightness(1.05) contrast(0.95) hue-rotate(5deg);
         }
       `}} />
     </div>
