@@ -43,12 +43,29 @@ const eventTypeStyle: Record<TimelineEvent["type"], string> = {
 };
 
 const tabs = ["Command Center", "Dependency Graph", "Resources"];
+import DigitalTwinCanvas from "../components/DigitalTwinCanvas";
+import NodeTelemetry from "../components/NodeTelemetry";
+
+const layerColor = (layer: string) => {
+  switch(layer) {
+    case 'power': return 'orange';
+    case 'water': return 'blue';
+    case 'traffic': return 'violet';
+    case 'shelters': return 'emerald';
+    default: return 'slate';
+  }
+};
 
 export default function DashboardPage() {
   const [phase, setPhase] = useState<WorkflowPhase>("IDLE");
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
   const [currentTime, setCurrentTime] = useState("");
   const [activeTab, setActiveTab] = useState(0);
+  
+  // Digital Twin state
+  const [viewMode, setViewMode] = useState<"map" | "twin">("map");
+  const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [layers, setLayers] = useState({ power: true, water: true, traffic: true, shelters: true });
 
   useEffect(() => {
     setCurrentTime(new Date().toLocaleTimeString("en-US", { hour12: false }));
@@ -135,14 +152,57 @@ export default function DashboardPage() {
 
         {/* ══ LEFT: Map column ══ */}
         <div className="flex flex-col flex-1 min-w-0 p-3 gap-3 overflow-hidden">
+          
+          {/* Header Controls */}
+          <div className="flex items-center gap-2">
+             <div className="bg-slate-900 text-white rounded-lg p-1 flex shadow-sm">
+                <button 
+                  onClick={() => setViewMode("map")}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${viewMode === "map" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+                >
+                  Live Map
+                </button>
+                <button 
+                  onClick={() => setViewMode("twin")}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${viewMode === "twin" ? "bg-violet-600 text-white" : "text-slate-400 hover:text-white"}`}
+                >
+                  <Cpu size={12} />
+                  Digital Twin Visualizer
+                </button>
+             </div>
 
-          {/* Map */}
+             {viewMode === "twin" && (
+                <div className="flex items-center gap-2 ml-4">
+                  {(Object.keys(layers) as (keyof typeof layers)[]).map(layer => (
+                    <button
+                      key={layer}
+                      onClick={() => setLayers(l => ({ ...l, [layer]: !l[layer] }))}
+                      className={`px-3 py-1 text-xs font-semibold rounded-full border transition-all flex items-center gap-1.5
+                        ${layers[layer] 
+                          ? `bg-${layerColor(layer)}-50 text-${layerColor(layer)}-700 border-${layerColor(layer)}-300` 
+                          : 'bg-white text-slate-400 border-slate-200'}`}
+                    >
+                      <div className={`w-1.5 h-1.5 rounded-full ${layers[layer] ? `bg-${layerColor(layer)}-500` : 'bg-slate-300'}`} />
+                      {layer}
+                    </button>
+                  ))}
+                </div>
+             )}
+          </div>
+
+          {/* Visualization Area */}
           <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative min-h-0">
-            <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm font-semibold text-slate-700 text-xs flex items-center gap-2">
-              <Radio size={13} className="text-blue-600" />
-              LIVE CITY GRID — Vijayawada, AP
-            </div>
-            <Map phase={phase} />
+            {viewMode === "map" ? (
+              <>
+                <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm font-semibold text-slate-700 text-xs flex items-center gap-2">
+                  <Radio size={13} className="text-blue-600" />
+                  LIVE CITY GRID — Vijayawada, AP
+                </div>
+                <Map phase={phase} />
+              </>
+            ) : (
+              <DigitalTwinCanvas phase={phase} layers={layers} onSelectNode={setSelectedNode} />
+            )}
           </div>
 
           {/* Status Bar */}
@@ -399,9 +459,15 @@ export default function DashboardPage() {
         </div>
 
         {/* ══ RIGHT: Sidebar ══ */}
-        <div className="w-64 flex flex-col gap-3 p-3 overflow-y-auto bg-slate-50 border-l border-slate-200 shrink-0">
-          <WeatherRisk phase={phase} />
-          <ResilienceScore phase={phase} />
+        <div className="w-72 flex flex-col gap-3 p-3 bg-slate-50 border-l border-slate-200 shrink-0">
+          {viewMode === "twin" ? (
+            <NodeTelemetry node={selectedNode} />
+          ) : (
+            <div className="flex flex-col gap-3 overflow-y-auto">
+              <WeatherRisk phase={phase} />
+              <ResilienceScore phase={phase} />
+            </div>
+          )}
         </div>
 
       </div>
