@@ -246,13 +246,6 @@ export default function DigitalTwinCanvas({ phase, layers, onSelectNode }: Canva
     onSelectNode(hit ? { ...hit, status: getNodeStatus(hit) } : null);
   };
 
-  const getNodeStatus = (node: Node): Node["status"] => {
-    if (node.id === "tr1" && isIncident) return "critical";
-    if ((node.id === "h1" || node.id === "dp1") && isCascade) return "warning";
-    if (node.id === "sh1" && isBackup) return "backup";
-    return node.status;
-  };
-
   return (
     <div className="w-full h-full relative">
       <canvas
